@@ -1,17 +1,17 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 
 dotenv.config();
 const router = express.Router();
 router.use(express.json());
 
-router.get("/", (req, res) => {
+router.get("/", (req: Request, res: Response) => {
     res.json({
         message: "Hello World!",
     });
 });
 
-router.get("/getid", async (req, res) => {
+router.get("/getid", async (req: Request, res: Response) => {
     const data = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
         headers: {
@@ -23,7 +23,7 @@ router.get("/getid", async (req, res) => {
     res.json((await data.json()).id);
 });
 
-router.get("/getBook", async (req, res) => {
+router.get("/getBook", async (req: Request, res: Response) => {
     const word = await fetch(
         "https://random-word-api.herokuapp.com/word?length=6"
     );
@@ -41,7 +41,7 @@ router.get("/getBook", async (req, res) => {
     let book = await data.json();
     let userData = await user.json();
 
-    function formatDate(date) {
+    function formatDate(date: number) {
         var d = new Date(date),
             month = "" + (d.getMonth() + 1),
             day = "" + d.getDate(),
@@ -53,7 +53,7 @@ router.get("/getBook", async (req, res) => {
         return [year, month, day].join("-");
     }
 
-    function formatPublishedDate(date) {
+    function formatPublishedDate(date: string) {
         return date.slice(0, 4);
     }
 
