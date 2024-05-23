@@ -2,13 +2,13 @@
     "name": "ains",
     "version": "1.0.0",
     "main": "index.js",
-  "scripts": {
-  "start": "nodemon index.ts",
-  "build": "tsc .",
-  "ts.check": "tsc --project tsconfig.json",
-  "add-build": "git add .",
-  "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "scripts": {
+        "start": "nodemon src/index.ts",
+        "build": "rimraf dist && tsc",
+        "ts.check": "tsc --project tsconfig.json",
+        "add-build": "git add dist",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
     "author": "reactwind",
     "license": "ISC",
     "description": "",
@@ -16,14 +16,16 @@
         "@types/express": "^4.17.21",
         "@types/node": "^20.12.12",
         "nodemon": "^3.1.0",
+        "pre-commit": "^1.2.2",
+        "rimraf": "^5.0.7",
         "ts-node": "^10.9.2",
         "typescript": "^5.4.5"
     },
-"pre-commit": [
-      "ts.check",
-      "build",
-      "add-build"
-  ],
+    "pre-commit": [
+        "ts.check",
+        "build",
+        "add-build"
+    ],
     "dependencies": {
         "dotenv": "^16.4.5",
         "express": "^4.19.2"

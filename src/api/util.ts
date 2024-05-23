@@ -1,17 +1,4 @@
-import express, { Request, Response } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
-const router = express.Router();
-router.use(express.json());
-
-router.get("/", (req: Request, res: Response) => {
-    res.json({
-        message: "Hello World!",
-    });
-});
-
-router.get("/getid", async (req: Request, res: Response) => {
+export async function getID() {
     const data = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
         headers: {
@@ -20,10 +7,10 @@ router.get("/getid", async (req: Request, res: Response) => {
         },
     });
 
-    res.json((await data.json()).id);
-});
+    return (await data.json()).id;
+}
 
-router.get("/getBook", async (req: Request, res: Response) => {
+export async function getBook() {
     const word = await fetch(
         "https://random-word-api.herokuapp.com/word?length=6"
     );
@@ -57,7 +44,7 @@ router.get("/getBook", async (req: Request, res: Response) => {
         return date.slice(0, 4);
     }
 
-    res.json({
+    return {
         data: {
             user: userData.id,
             type: "book",
@@ -66,10 +53,10 @@ router.get("/getBook", async (req: Request, res: Response) => {
             bookType: "physical",
             category: "fiction",
             noOfPage: book.items[0].volumeInfo.pageCount,
-            isbn: book.items[0].volumeInfo.industryIdentifiers[0].identifier
+            isbn: book.items[0].volumeInfo.industryIdentifiers
                 ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
                 : "-",
-            author: book.items[0].volumeInfo.authors[0]
+            author: book.items[0].volumeInfo.authors
                 ? book.items[0].volumeInfo.authors[0]
                 : "-",
             publisher: book.items[0].volumeInfo.publisher,
@@ -82,31 +69,5 @@ router.get("/getBook", async (req: Request, res: Response) => {
             rating: 5,
             reviewIsVideo: false,
         },
-    });
-});
-
-// router.get("/createBook", async (req: Request, res: Response) => {
-//     const book = await fetch("http://localhost:3000/api/getBook");
-//     const data = await book.json();
-//     console.log(data.data);
-
-//     const result = await fetch(
-//         "https://jombaca-api.jazro.com.my/api/nilam-records",
-//         {
-//             method: "POST",
-//             headers: {
-//                 Authorization: `Bearer ${process.env.TOKEN}`,
-//                 Origin: "https://ains.moe.gov.my",
-//             },
-//             body: JSON.stringify({
-//                 data: {
-//                     ...data.data,
-//                 },
-//             }),
-//         }
-//     );
-
-//     res.json(result.json);
-// });
-
-export default router;
+    };
+}
