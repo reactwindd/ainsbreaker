@@ -24,11 +24,25 @@ router.get("/", (req, res) => {
     });
 });
 router.get("/getid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield (0, util_1.getID)();
+    let token = req.get("Authorization");
+    if (!token) {
+        return res.status(401).json({
+            error: "Unauthorized",
+        });
+    }
+    token = token.substring(7, token.length);
+    const data = yield (0, util_1.getID)(token);
     res.json(data);
 }));
 router.get("/getBook", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield (0, util_1.getBook)();
+    let token = req.get("Authorization");
+    if (!token) {
+        return res.status(401).json({
+            error: "Unauthorized",
+        });
+    }
+    token = token.substring(7, token.length);
+    const data = yield (0, util_1.getBook)(token);
     res.json(data);
 }));
 exports.default = router;

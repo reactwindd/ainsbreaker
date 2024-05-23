@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBook = exports.getID = void 0;
-function getID() {
+function getID(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${process.env.TOKEN}`,
+                Authorization: `Bearer ${token}`,
                 Origin: "https://ains.moe.gov.my",
             },
         });
@@ -23,14 +23,14 @@ function getID() {
     });
 }
 exports.getID = getID;
-function getBook() {
+function getBook(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const word = yield fetch("https://random-word-api.herokuapp.com/word?length=6");
         const data = yield fetch(`https://www.googleapis.com/books/v1/volumes/?q=${yield word.text()}`);
         const user = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${process.env.TOKEN}`,
+                Authorization: `Bearer ${token}`,
                 Origin: "https://ains.moe.gov.my",
             },
         });

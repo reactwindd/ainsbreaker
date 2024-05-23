@@ -1,8 +1,8 @@
-export async function getID() {
+export async function getID(token: string) {
     const data = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${process.env.TOKEN}`,
+            Authorization: `Bearer ${token}`,
             Origin: "https://ains.moe.gov.my",
         },
     });
@@ -10,7 +10,7 @@ export async function getID() {
     return (await data.json()).id;
 }
 
-export async function getBook() {
+export async function getBook(token: string) {
     const word = await fetch(
         "https://random-word-api.herokuapp.com/word?length=6"
     );
@@ -20,7 +20,7 @@ export async function getBook() {
     const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${process.env.TOKEN}`,
+            Authorization: `Bearer ${token}`,
             Origin: "https://ains.moe.gov.my",
         },
     });
