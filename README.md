@@ -45,7 +45,9 @@ GET /api/insertrecord
 
 ## Frequently Asked Question
 Q: When trying to access the api endpoints `"error": "Unauthorized"` pop up, what did I missed?
-A: You are required to use the access token of your AINS account.
+A: You are required to use the access token of your AINS account. When sending a request to the api endpoints, include a field under the name of ***Authorization*** and put the token as the value in the ***Request Header***.
 
 Q: How do I find my AINS access token?
 A: Open up the developer console and navigate to the ***Network*** tab, find a request under the name of ***me*** and click on it. A sidebar will open up, navigate to ***Headers*** and expand ***Request Headers***. Find the the value under the name of ***Authorization***. Copy it and there you have it! (Including ***Bearer***)
+
+Q: 
