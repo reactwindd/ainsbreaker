@@ -1,0 +1,176 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertRecord = exports.getBook = exports.getID = void 0;
+function getID(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Origin: "https://ains.moe.gov.my",
+            },
+        });
+        return (yield data.json()).id;
+    });
+}
+exports.getID = getID;
+function getBook(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const word = yield fetch("https://random-word.ryanrk.com/api/en/word/random/?maxlength=6");
+        const wordDataa = yield word.json();
+        const wordData = wordDataa[0];
+        const data = yield fetch(`https://www.googleapis.com/books/v1/volumes/?q=${yield wordData}`);
+        const user = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Origin: "https://ains.moe.gov.my",
+            },
+        });
+        let book = yield data.json();
+        let userData = yield user.json();
+        function formatDate(date) {
+            var d = new Date(date), month = "" + (d.getMonth() + 1), day = "" + d.getDate(), year = d.getFullYear();
+            if (month.length < 2)
+                month = "0" + month;
+            if (day.length < 2)
+                day = "0" + day;
+            return [year, month, day].join("-");
+        }
+        function formatPublishedDate(date) {
+            return date.slice(0, 4);
+        }
+        if (!book.items[0].volumeInfo.publishedDate) {
+            book.items[0].volumeInfo.publishedDate = "-";
+        }
+        // **********************************************************
+        //
+        // Only For Debugging Purposes
+        //
+        // **********************************************************
+        console.log({
+            data: {
+                user: userData.id,
+                type: "book",
+                date: formatDate(Date.now()),
+                title: book.items[0].volumeInfo.title,
+                bookType: "physical",
+                category: "fiction",
+                noOfPage: book.items[0].volumeInfo.pageCount
+                    ? book.items[0].volumeInfo.pageCount
+                    : 0,
+                isbn: book.items[0].volumeInfo.industryIdentifiers
+                    ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
+                    : "-",
+                author: book.items[0].volumeInfo.authors
+                    ? book.items[0].volumeInfo.authors[0]
+                    : "-",
+                publisher: book.items[0].volumeInfo.publisher
+                    ? book.items[0].volumeInfo.publisher
+                    : "-",
+                publishedYear: formatPublishedDate(book.items[0].volumeInfo.publishedDate),
+                language: "en",
+                summary: book.items[0].volumeInfo.description
+                    ? book.items[0].volumeInfo.description
+                    : "No Description",
+                review: "It's Really Good",
+                rating: 5,
+                reviewIsVideo: false,
+            },
+        });
+        return {
+            data: {
+                user: userData.id,
+                type: "book",
+                date: formatDate(Date.now()),
+                title: book.items[0].volumeInfo.title,
+                bookType: "physical",
+                category: "fiction",
+                noOfPage: book.items[0].volumeInfo.pageCount
+                    ? book.items[0].volumeInfo.pageCount
+                    : 0,
+                isbn: book.items[0].volumeInfo.industryIdentifiers
+                    ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
+                    : "-",
+                author: book.items[0].volumeInfo.authors
+                    ? book.items[0].volumeInfo.authors[0]
+                    : "-",
+                publisher: book.items[0].volumeInfo.publisher
+                    ? book.items[0].volumeInfo.publisher
+                    : "-",
+                publishedYear: formatPublishedDate(book.items[0].volumeInfo.publishedDate),
+                language: "en",
+                summary: book.items[0].volumeInfo.description
+                    ? book.items[0].volumeInfo.description
+                    : "No Description",
+                review: "It's Really Good",
+                rating: 5,
+                reviewIsVideo: false,
+            },
+        };
+    });
+}
+exports.getBook = getBook;
+function insertRecord(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Origin: "https://ains.moe.gov.my",
+            },
+        });
+        const book = yield fetch("http://localhost:3000/api/getBook", {
+            method: "get",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        let bookData = yield book.json();
+        let userData = yield user.json();
+        console.log(bookData);
+        let body = JSON.stringify({
+            data: {
+                user: userData.id,
+                type: "book",
+                date: bookData.data.date,
+                title: bookData.data.title,
+                bookType: "physical",
+                category: "fiction",
+                noOfPage: bookData.data.noOfPage,
+                isbn: bookData.data.isbn,
+                author: bookData.data.author,
+                publisher: bookData.data.publisher,
+                publishedYear: bookData.data.publishedYear,
+                language: "en",
+                summary: bookData.data.summary,
+                review: "It's Really Good",
+                rating: 5,
+                reviewIsVideo: false,
+            },
+        });
+        const data = yield fetch("https://jombaca-api.jazro.com.my/api/nilam-records", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Origin: "https://ains.moe.gov.my",
+                "Content-Type": "application/json",
+                Accept: "application/json, text/plain, */*",
+            },
+            body: body,
+        });
+        let result = yield data.json();
+        return result;
+    });
+}
+exports.insertRecord = insertRecord;
+//# sourceMappingURL=controller.js.map

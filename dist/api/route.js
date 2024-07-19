@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const util_1 = require("./util");
+const controller_1 = require("./controller");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const router = express_1.default.Router();
@@ -31,7 +31,7 @@ router.get("/getid", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     token = token.substring(7, token.length);
-    const data = yield (0, util_1.getID)(token);
+    const data = yield (0, controller_1.getID)(token);
     res.json(data);
 }));
 router.get("/getBook", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,7 +42,18 @@ router.get("/getBook", (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     token = token.substring(7, token.length);
-    const data = yield (0, util_1.getBook)(token);
+    const data = yield (0, controller_1.getBook)(token);
+    res.json(data);
+}));
+router.get("/insertRecord", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let token = req.get("Authorization");
+    if (!token) {
+        return res.status(401).json({
+            error: "Unauthorized",
+        });
+    }
+    token = token.substring(7, token.length);
+    const data = yield (0, controller_1.insertRecord)(token);
     res.json(data);
 }));
 exports.default = router;

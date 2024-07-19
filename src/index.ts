@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
+    console.log("Index: http://localhost:3000/api/");
+    console.log("API: http://localhost:3000/api/getBook");
 });
 
 app.use("/api", route);

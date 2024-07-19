@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getID, getBook } from "./util";
+import { getID, getBook, insertRecord } from "./controller";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -33,6 +33,18 @@ router.get("/getBook", async (req: Request, res: Response) => {
     }
     token = token.substring(7, token.length);
     const data = await getBook(token);
+    res.json(data);
+});
+
+router.get("/insertRecord", async (req: Request, res: Response) => {
+    let token = req.get("Authorization");
+    if (!token) {
+        return res.status(401).json({
+            error: "Unauthorized",
+        });
+    }
+    token = token.substring(7, token.length);
+    const data = await insertRecord(token);
     res.json(data);
 });
 
