@@ -130,14 +130,11 @@ export async function insertRecord(token: string) {
             Origin: "https://ains.moe.gov.my",
         },
     });
-    const book = await fetch("http://localhost:3000/api/getBook", {
-        method: "get",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
 
-    let bookData = await book.json();
+    const book = await getBook(token);
+    console.log(book);
+
+    let bookData = book;
     let userData = await user.json();
     console.log(bookData);
 

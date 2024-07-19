@@ -129,13 +129,9 @@ function insertRecord(token) {
                 Origin: "https://ains.moe.gov.my",
             },
         });
-        const book = yield fetch("http://localhost:3000/api/getBook", {
-            method: "get",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        let bookData = yield book.json();
+        const book = yield getBook(token);
+        console.log(book);
+        let bookData = book;
         let userData = yield user.json();
         console.log(bookData);
         let body = JSON.stringify({
