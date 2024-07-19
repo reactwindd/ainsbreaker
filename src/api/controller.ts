@@ -1,3 +1,33 @@
+// ***************************************************************
+//
+// Types
+//
+// ***************************************************************
+type book = {
+    user: number;
+    type: string;
+    date: Date;
+    title: string;
+    bookType: string;
+    category: string;
+    noOfPage: number;
+    isbn: string;
+    author: string;
+    publisher: string;
+    publishedYear: string;
+    language: string;
+    summary: string;
+    review: string;
+    rating: number;
+    reviewIsVideo: boolean;
+};
+
+// ***************************************************************
+//
+// api/getid
+//
+// ***************************************************************
+
 export async function getID(token: string) {
     const data = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
@@ -9,6 +39,12 @@ export async function getID(token: string) {
 
     return (await data.json()).id;
 }
+
+// ***************************************************************
+//
+// api/getbook
+//
+// ***************************************************************
 
 export async function getBook(token: string) {
     const word = await fetch(
@@ -55,38 +91,38 @@ export async function getBook(token: string) {
     // Only For Debugging Purposes
     //
     // **********************************************************
-    console.log({
-        data: {
-            user: userData.id,
-            type: "book",
-            date: formatDate(Date.now()),
-            title: book.items[0].volumeInfo.title,
-            bookType: "physical",
-            category: "fiction",
-            noOfPage: book.items[0].volumeInfo.pageCount
-                ? book.items[0].volumeInfo.pageCount
-                : 0,
-            isbn: book.items[0].volumeInfo.industryIdentifiers
-                ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
-                : "-",
-            author: book.items[0].volumeInfo.authors
-                ? book.items[0].volumeInfo.authors[0]
-                : "-",
-            publisher: book.items[0].volumeInfo.publisher
-                ? book.items[0].volumeInfo.publisher
-                : "-",
-            publishedYear: formatPublishedDate(
-                book.items[0].volumeInfo.publishedDate
-            ),
-            language: "en",
-            summary: book.items[0].volumeInfo.description
-                ? book.items[0].volumeInfo.description
-                : "No Description",
-            review: "It's Really Good",
-            rating: 5,
-            reviewIsVideo: false,
-        },
-    });
+    // console.log({
+    //     data: {
+    //         user: userData.id,
+    //         type: "book",
+    //         date: formatDate(Date.now()),
+    //         title: book.items[0].volumeInfo.title,
+    //         bookType: "physical",
+    //         category: "fiction",
+    //         noOfPage: book.items[0].volumeInfo.pageCount
+    //             ? book.items[0].volumeInfo.pageCount
+    //             : 0,
+    //         isbn: book.items[0].volumeInfo.industryIdentifiers
+    //             ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
+    //             : "-",
+    //         author: book.items[0].volumeInfo.authors
+    //             ? book.items[0].volumeInfo.authors[0]
+    //             : "-",
+    //         publisher: book.items[0].volumeInfo.publisher
+    //             ? book.items[0].volumeInfo.publisher
+    //             : "-",
+    //         publishedYear: formatPublishedDate(
+    //             book.items[0].volumeInfo.publishedDate
+    //         ),
+    //         language: "en",
+    //         summary: book.items[0].volumeInfo.description
+    //             ? book.items[0].volumeInfo.description
+    //             : "No Description",
+    //         review: "It's Really Good",
+    //         rating: 5,
+    //         reviewIsVideo: false,
+    //     },
+    // });
 
     return {
         data: {
@@ -122,7 +158,13 @@ export async function getBook(token: string) {
     };
 }
 
-export async function insertRecord(token: string) {
+// ***************************************************************
+//
+// api/insertRecord
+//
+// ***************************************************************
+
+export async function insertRecord(token: string): Promise<book> {
     const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
         method: "GET",
         headers: {
@@ -132,11 +174,11 @@ export async function insertRecord(token: string) {
     });
 
     const book = await getBook(token);
-    console.log(book);
+    // console.log(book);
 
     let bookData = book;
     let userData = await user.json();
-    console.log(bookData);
+    // console.log(bookData);
 
     let body = JSON.stringify({
         data: {

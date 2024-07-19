@@ -10,6 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.insertRecord = exports.getBook = exports.getID = void 0;
+// ***************************************************************
+//
+// api/getid
+//
+// ***************************************************************
 function getID(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
@@ -23,6 +28,11 @@ function getID(token) {
     });
 }
 exports.getID = getID;
+// ***************************************************************
+//
+// api/getbook
+//
+// ***************************************************************
 function getBook(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const word = yield fetch("https://random-word.ryanrk.com/api/en/word/random/?maxlength=6");
@@ -57,36 +67,38 @@ function getBook(token) {
         // Only For Debugging Purposes
         //
         // **********************************************************
-        console.log({
-            data: {
-                user: userData.id,
-                type: "book",
-                date: formatDate(Date.now()),
-                title: book.items[0].volumeInfo.title,
-                bookType: "physical",
-                category: "fiction",
-                noOfPage: book.items[0].volumeInfo.pageCount
-                    ? book.items[0].volumeInfo.pageCount
-                    : 0,
-                isbn: book.items[0].volumeInfo.industryIdentifiers
-                    ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
-                    : "-",
-                author: book.items[0].volumeInfo.authors
-                    ? book.items[0].volumeInfo.authors[0]
-                    : "-",
-                publisher: book.items[0].volumeInfo.publisher
-                    ? book.items[0].volumeInfo.publisher
-                    : "-",
-                publishedYear: formatPublishedDate(book.items[0].volumeInfo.publishedDate),
-                language: "en",
-                summary: book.items[0].volumeInfo.description
-                    ? book.items[0].volumeInfo.description
-                    : "No Description",
-                review: "It's Really Good",
-                rating: 5,
-                reviewIsVideo: false,
-            },
-        });
+        // console.log({
+        //     data: {
+        //         user: userData.id,
+        //         type: "book",
+        //         date: formatDate(Date.now()),
+        //         title: book.items[0].volumeInfo.title,
+        //         bookType: "physical",
+        //         category: "fiction",
+        //         noOfPage: book.items[0].volumeInfo.pageCount
+        //             ? book.items[0].volumeInfo.pageCount
+        //             : 0,
+        //         isbn: book.items[0].volumeInfo.industryIdentifiers
+        //             ? book.items[0].volumeInfo.industryIdentifiers[0].identifier
+        //             : "-",
+        //         author: book.items[0].volumeInfo.authors
+        //             ? book.items[0].volumeInfo.authors[0]
+        //             : "-",
+        //         publisher: book.items[0].volumeInfo.publisher
+        //             ? book.items[0].volumeInfo.publisher
+        //             : "-",
+        //         publishedYear: formatPublishedDate(
+        //             book.items[0].volumeInfo.publishedDate
+        //         ),
+        //         language: "en",
+        //         summary: book.items[0].volumeInfo.description
+        //             ? book.items[0].volumeInfo.description
+        //             : "No Description",
+        //         review: "It's Really Good",
+        //         rating: 5,
+        //         reviewIsVideo: false,
+        //     },
+        // });
         return {
             data: {
                 user: userData.id,
@@ -120,6 +132,11 @@ function getBook(token) {
     });
 }
 exports.getBook = getBook;
+// ***************************************************************
+//
+// api/insertRecord
+//
+// ***************************************************************
 function insertRecord(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield fetch("https://jombaca-api.jazro.com.my/api/users/me", {
@@ -130,10 +147,10 @@ function insertRecord(token) {
             },
         });
         const book = yield getBook(token);
-        console.log(book);
+        // console.log(book);
         let bookData = book;
         let userData = yield user.json();
-        console.log(bookData);
+        // console.log(bookData);
         let body = JSON.stringify({
             data: {
                 user: userData.id,
