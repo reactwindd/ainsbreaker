@@ -5,13 +5,21 @@
 
 ## Requests
 
-```GET /api/getid```
-```GET /api/getbook```
-```GET /api insertrecord```
+```
+GET /api/getid
+```
+```
+GET /api/getbook
+```
+```
+GET /api insertrecord
+```
 
 ## Response
 
-```0001```
+```
+0001
+```
 ```
 {
   "data": {
