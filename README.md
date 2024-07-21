@@ -15,6 +15,11 @@ GET /api/getbook
 GET /api/insertrecord
 ```
 
+All requests above requires a token sent in the HTTP Headers as Parameters
+```
+Authorization: Bearer <token>
+```
+
 ## Responses
 
 ```
