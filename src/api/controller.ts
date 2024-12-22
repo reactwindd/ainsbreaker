@@ -2,6 +2,9 @@
 //
 // Types
 //
+
+import { json } from "express";
+
 // ***************************************************************
 type book = {
     user: number;
@@ -46,7 +49,7 @@ export async function getID(token: string) {
 //
 // ***************************************************************
 
-export async function getBook(token: string) {
+export async function getBook() {
     const word = await fetch(
         "https://random-word.ryanrk.com/api/en/word/random/?maxlength=6"
     );
@@ -55,16 +58,16 @@ export async function getBook(token: string) {
     const data = await fetch(
         `https://www.googleapis.com/books/v1/volumes/?q=${await wordData}`
     );
-    const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Origin: "https://ains.moe.gov.my",
-        },
-    });
+    // const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
+    //     method: "GET",
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         Origin: "https://ains.moe.gov.my",
+    //     },
+    // });
 
     let book = await data.json();
-    let userData = await user.json();
+    // let userData = await user.json();
 
     function formatDate(date: number) {
         var d = new Date(date),
@@ -126,7 +129,7 @@ export async function getBook(token: string) {
 
     return {
         data: {
-            user: userData.id,
+            user: "NaN",
             type: "book",
             date: formatDate(Date.now()),
             title: book.items[0].volumeInfo.title,
@@ -164,58 +167,73 @@ export async function getBook(token: string) {
 //
 // ***************************************************************
 
-export async function insertRecord(token: string): Promise<book> {
-    const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Origin: "https://ains.moe.gov.my",
-        },
-    });
+// export async function insertRecord(token: string): Promise<book> {
+//     const user = await fetch("https://jombaca-api.jazro.com.my/api/users/me", {
+//         method: "GET",
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//             Origin: "https://ains.moe.gov.my",
+//         },
+//     });
 
-    const book = await getBook(token);
-    // console.log(book);
+// const book = await getBook(token);
+// console.log(book);
 
-    let bookData = book;
-    let userData = await user.json();
-    // console.log(bookData);
+// let bookData = book;
+// let userData = await user.json();
+// console.log(bookData);
 
-    let body = JSON.stringify({
-        data: {
-            user: userData.id,
-            type: "book",
-            date: bookData.data.date,
-            title: bookData.data.title,
-            bookType: "physical",
-            category: "fiction",
-            noOfPage: bookData.data.noOfPage,
-            isbn: bookData.data.isbn,
-            author: bookData.data.author,
-            publisher: bookData.data.publisher,
-            publishedYear: bookData.data.publishedYear,
-            language: "en",
-            summary: bookData.data.summary,
-            review: "It's Really Good",
-            rating: 5,
-            reviewIsVideo: false,
-        },
-    });
+// let body = JSON.stringify({
+//     data: {
+//         user: userData.id,
+//         type: "book",
+//         date: bookData.data.date,
+//         title: bookData.data.title,
+//         bookType: "physical",
+//         category: "fiction",
+//         noOfPage: bookData.data.noOfPage,
+//         isbn: bookData.data.isbn,
+//         author: bookData.data.author,
+//         publisher: bookData.data.publisher,
+//         publishedYear: bookData.data.publishedYear,
+//         language: "en",
+//         summary: bookData.data.summary,
+//         review: "It's Really Good",
+//         rating: 5,
+//         reviewIsVideo: false,
+//     },
+// });
 
-    const data = await fetch(
-        "https://jombaca-api.jazro.com.my/api/nilam-records",
-        {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Origin: "https://ains.moe.gov.my",
-                "Content-Type": "application/json",
-                Accept: "application/json, text/plain, */*",
-            },
-            body: body,
-        }
-    );
+//     const data = await fetch(
+//         "https://jombaca-api.jazro.com.my/api/nilam-records",
+//         {
+//             method: "POST",
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//                 Origin: "https://ains.moe.gov.my",
+//                 "Content-Type": "application/json",
+//                 Accept: "application/json, text/plain, */*",
+//             },
+//             // body: body,
+//         }
+//     );
 
-    let result = await data.json();
+//     let result = await data.json();
 
-    return result;
-}
+//     return result;
+// }
+
+// export async function findPerson(token: string) {
+//     const data = await fetch(
+//         "https://jombaca-api.jazro.com.my/api/nilam-records?sort[-1]=createdAt&populate=*",
+//         {
+//             method: "GET",
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//                 Origin: "https://ains.moe.gov.my",
+//             },
+//         }
+//     );
+//     const result = await data.json();
+//     return result;
+// }

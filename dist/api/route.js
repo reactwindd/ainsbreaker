@@ -19,14 +19,14 @@ dotenv_1.default.config();
 const router = express_1.default.Router();
 router.use(express_1.default.json());
 router.get("/", (req, res) => {
-    res.json({
+    res.status(200).json({
         message: "Hello World!",
     });
 });
 router.get("/getid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.get("Authorization");
     if (!token) {
-        return res.status(401).json({
+        res.status(401).json({
             error: "Unauthorized",
         });
     }
@@ -35,26 +35,37 @@ router.get("/getid", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.json(data);
 }));
 router.get("/getBook", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let token = req.get("Authorization");
-    if (!token) {
-        return res.status(401).json({
-            error: "Unauthorized",
-        });
-    }
-    token = token.substring(7, token.length);
-    const data = yield (0, controller_1.getBook)(token);
+    // let token = req.get("Authorization");
+    // if (!token) {
+    //     res.status(401).json({
+    //         error: "Unauthorized",
+    //     });
+    // }
+    // token = token.substring(7, token.length);
+    const data = yield (0, controller_1.getBook)();
     res.json(data);
 }));
-router.get("/insertRecord", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let token = req.get("Authorization");
-    if (!token) {
-        return res.status(401).json({
-            error: "Unauthorized",
-        });
-    }
-    token = token.substring(7, token.length);
-    const data = yield (0, controller_1.insertRecord)(token);
-    res.json(data);
-}));
+// router.get("/insertRecord", async (req: Request, res: Response) => {
+//     let token = req.get("Authorization");
+//     if (!token) {
+//         res.status(401).json({
+//             error: "Unauthorized",
+//         });
+//     }
+//     token = token.substring(7, token.length);
+//     const data = await insertRecord(token);
+//     res.json(data);
+// });
+// router.get("/findPerson", async (req: Request, res: Response) => {
+//     let token = req.get("Authorization");
+//     if (!token) {
+//         res.status(401).json({
+//             error: "Unauthorized",
+//         });
+//     }
+//     token = token.substring(7, token.length);
+//     const data = await findPerson(token);
+//     res.json(data);
+// });
 exports.default = router;
 //# sourceMappingURL=route.js.map
