@@ -51,7 +51,7 @@ export async function getID(token: string) {
 
 export async function getBook() {
     const word = await fetch(
-        "https://random-word.ryanrk.com/api/en/word/random/?maxlength=6"
+        "https://random-word-api.vercel.app/api?words=1"
     );
     const wordDataa = await word.json();
     const wordData = wordDataa[0];
