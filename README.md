@@ -1,4 +1,4 @@
-# AINS(Advance Intergrated Nilam System) Breaker
+# AINS(Advance Intergrated Nilam System) Book Generator
 
 > This is only made for educational and research purposes.
 > and not meant to be exploited.
